@@ -1,6 +1,6 @@
 # button-pagination
 ## Adds Pagination API through Discord buttons
 
-### see src/main/examples for examples
+## see src/main/examples for examples
 
-### docs coming soon
+## docs coming soon
