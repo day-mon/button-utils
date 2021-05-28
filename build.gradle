@@ -4,6 +4,8 @@ plugins {
     id 'maven-publish'
 }
 
+project.tasks.assemble.dependsOn project.tasks.shadowJar
+
 version '1.0'
 
 sourceCompatibility = 1.8
