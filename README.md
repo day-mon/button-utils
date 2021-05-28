@@ -36,3 +36,5 @@ maven:
 
 ## TODO
 - Add timeout checks for greater than 15 minutes (interaction limit)
+- Slash command paginator
+- Refactor & organise
