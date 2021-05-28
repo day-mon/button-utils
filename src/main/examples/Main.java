@@ -30,11 +30,12 @@ public class Main {
 
         );
         ButtonPaginator paginator = new ButtonPaginator.Builder()
-                .setWaiter(waiter)
-                .setEmbeds(embeds)
-                .setJDA(jda)
-                .setChannel(-1)
-                .build();
+            .setWaiter(waiter)
+            .setEmbeds(embeds)
+            .setJDA(jda)
+            .setChannel(0)
+            .setPredicate(event -> { event.getMember().getIdLong() == 0 })
+            .build()
 
         paginator.paginate();
     }
