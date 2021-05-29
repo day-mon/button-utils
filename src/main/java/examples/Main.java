@@ -1,7 +1,14 @@
+package examples;
+
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
-import com.sun.tools.javac.util.List;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import javax.security.auth.login.LoginException;
-import me.arynxd.button_utils.ButtonPaginator;
+import me.arynxd.button_utils.builder.menu.StandardMenuBuilder;
+import me.arynxd.button_utils.builder.pagination.StandardPaginatorBuilder;
+import me.arynxd.button_utils.menu.Menu;
+import me.arynxd.button_utils.pagination.Paginator;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -21,22 +28,31 @@ public class Main {
                 .addEventListeners(waiter)
                 .build();
 
-        List<MessageEmbed> embeds = List.of(
+        List<MessageEmbed> embeds = Arrays.asList(
                 new EmbedBuilder().setTitle("Page 1").build(),
                 new EmbedBuilder().setTitle("Page 2").build(),
                 new EmbedBuilder().setTitle("Page 3").build(),
                 new EmbedBuilder().setTitle("Page 4").build(),
                 new EmbedBuilder().setTitle("Page 5").build()
-
         );
-        ButtonPaginator paginator = new ButtonPaginator.Builder()
+
+        Paginator paginator = new StandardPaginatorBuilder()
             .setWaiter(waiter)
             .setEmbeds(embeds)
             .setJDA(jda)
             .setChannel(0)
-            .setPredicate(event -> { event.getMember().getIdLong() == 0 })
-            .build()
+            .setPredicate(event -> event.getMember().getIdLong() == 0)
+            .build();
 
         paginator.paginate();
+
+        Menu menu = new StandardMenuBuilder()
+                .setWaiter(waiter)
+                .setEmbeds(embeds)
+                .setJDA(jda)
+                .setChannel(0)
+                .setPredicate(event -> event.getMember().getIdLong() == 0)
+                .build();
+        menu.start();
     }
 }

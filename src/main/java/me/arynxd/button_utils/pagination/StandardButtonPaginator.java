@@ -10,7 +10,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Predicate;
-import javax.annotation.Nonnull;
+import me.arynxd.button_utils.Constants;
+import me.arynxd.button_utils.builder.pagination.StandardPaginatorBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
@@ -18,7 +19,6 @@ import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.interaction.ButtonClickEvent;
 import net.dv8tion.jda.api.interactions.ActionRow;
 import net.dv8tion.jda.api.interactions.button.Button;
-import net.dv8tion.jda.internal.utils.Checks;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,16 +44,16 @@ public class StandardButtonPaginator implements Paginator {
     private long messageId = -1;
     private int page = 0;
 
-    public StandardButtonPaginator(Builder builder) {
-        this.timeoutUnit = builder.timeoutUnit;
-        this.timeout = builder.timeout;
+    public StandardButtonPaginator(StandardPaginatorBuilder builder) {
+        this.timeoutUnit = builder.getTimeoutUnit();
+        this.timeout = builder.getTimeout();
 
-        this.predicate = builder.predicate;
-        this.embeds = builder.embeds;
-        this.deleteOnTimeout = builder.deleteOnTimeout;
-        this.waiter = builder.waiter;
-        this.channelId = builder.channelId;
-        this.jda = builder.jda;
+        this.predicate = builder.getPredicate();
+        this.embeds = builder.getEmbeds();
+        this.deleteOnTimeout = builder.isDeleteOnTimeout();
+        this.waiter = builder.getWaiter();
+        this.channelId = builder.getChannelId();
+        this.jda = builder.getJDA();
 
         this.maxPage = embeds.size();
 
@@ -64,9 +64,9 @@ public class StandardButtonPaginator implements Paginator {
         String token3 = makeToken((short) random.nextInt());
 
         this.actionRow = ActionRow.of(
-                Button.primary(token1, ARROW_LEFT_EMOJI),
-                Button.primary(token2, ARROW_RIGHT_EMOJI),
-                Button.danger(token3, WASTEBASKET_EMOJI)
+                Button.primary(token1, Constants.ARROW_LEFT_EMOJI),
+                Button.primary(token2, Constants.ARROW_RIGHT_EMOJI),
+                Button.danger(token3, Constants.WASTEBASKET_EMOJI)
         );
 
         jwtTokens.add(token1);
@@ -81,10 +81,15 @@ public class StandardButtonPaginator implements Paginator {
     }
 
     private void doWait() {
-        waiter.waitForEvent(ButtonClickEvent.class, predicate, this::switchPage, timeout, timeoutUnit, () -> {
+        waiter.waitForEvent(ButtonClickEvent.class, ev -> {
+            if (ev.getChannel().getIdLong() != this.channelId) {
+                return false;
+            }
+            return predicate.test(ev);
+        }, this::switchPage, timeout, timeoutUnit, () -> {
             if (this.deleteOnTimeout) {
                 if (this.messageId == -1) {
-                    LOGGER.error("ID not set (this should never happen)", new IllegalArgumentException());
+                    LOGGER.error("ID not set (this should never happen)", new IllegalStateException());
                     return;
                 }
 
@@ -119,19 +124,19 @@ public class StandardButtonPaginator implements Paginator {
         }
 
         switch (emoji) {
-            case ARROW_LEFT_UNICODE:
+            case Constants.ARROW_LEFT_UNICODE:
                 page--;
                 if (page < 0) {
                     page = maxPage - 1;
                 }
                 break;
-            case ARROW_RIGHT_UNICODE:
+            case Constants.ARROW_RIGHT_UNICODE:
                 page++;
                 if (page >= maxPage) {
                     page = 0;
                 }
                 break;
-            case WASTEBASKET_UNICODE:
+            case Constants.WASTEBASKET_UNICODE:
                 message.delete().queue();
                 return;
         }
@@ -184,77 +189,5 @@ public class StandardButtonPaginator implements Paginator {
     @Override
     public int getPage() {
         return page;
-    }
-
-    public static class Builder {
-        private int timeout = DEFAULT_TIMEOUT;
-        private TimeUnit timeoutUnit = DEFAULT_TIMEOUT_UNIT;
-        private boolean deleteOnTimeout = DEFAULT_DELETE_ON_TIMEOUT;
-
-        private EventWaiter waiter = null;
-        private Predicate<ButtonClickEvent> predicate = null;
-        private long channelId = -1;
-        private List<MessageEmbed> embeds = new ArrayList<>();
-        private JDA jda = null;
-
-
-        public Builder setPredicate(Predicate<ButtonClickEvent> predicate) {
-            this.predicate = predicate;
-            return this;
-        }
-
-        public Builder setJDA(JDA jda) {
-            this.jda = jda;
-            return this;
-        }
-
-        public Builder setDeleteOnTimeout(boolean behavior) {
-            this.deleteOnTimeout = behavior;
-            return this;
-        }
-
-        public Builder setChannel(MessageChannel channel) {
-            this.channelId = channel.getIdLong();
-            return this;
-        }
-
-        public Builder setChannel(long id) {
-            this.channelId = id;
-            return this;
-        }
-
-        public Builder setEmbeds(List<MessageEmbed> embeds) {
-            this.embeds = embeds;
-            return this;
-        }
-
-        public Builder setTimeout(int timeout) {
-            this.timeout = timeout;
-            return this;
-        }
-
-        public Builder setTimeoutUnit(TimeUnit timeoutUnit) {
-            this.timeoutUnit = timeoutUnit;
-            return this;
-        }
-
-        public Builder setWaiter(EventWaiter waiter) {
-            this.waiter = waiter;
-            return this;
-        }
-
-        private void validate() {
-            Checks.notEmpty(embeds, "Embeds");
-            Checks.notNull(waiter, "Event Waiter");
-            Checks.notNull(predicate, "Predicate");
-            Checks.notNull(jda, "JDA");
-            Checks.notNegative(channelId, "Channel ID");
-        }
-
-        @Nonnull
-        public StandardButtonPaginator build() {
-            validate();
-            return new StandardButtonPaginator(this);
-        }
     }
 }
