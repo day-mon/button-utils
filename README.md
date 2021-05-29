@@ -1,5 +1,5 @@
-# button-pagination
-## Adds Pagination API through Discord buttons
+# button-utils
+## Adds a collection of utils for the Buttons API
 
 see src/main/examples for examples
 
@@ -13,7 +13,7 @@ repositories {
 }
 
 dependencies {
-  implementation 'com.github.arynxd:button-pagination:Tag'
+  implementation 'com.github.arynxd:button-utils:VERSION'
 }
 ```
 
@@ -29,7 +29,7 @@ maven:
 
 <dependency>
     <groupId>com.github.arynxd</groupId>
-    <artifactId>button-pagination</artifactId>
+    <artifactId>button-utils</artifactId>
     <version>Tag</version>
 </dependency>
 ```
