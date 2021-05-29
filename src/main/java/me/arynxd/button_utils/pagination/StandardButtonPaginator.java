@@ -1,4 +1,4 @@
-package me.arynxd.button_pagination;
+package me.arynxd.button_utils.pagination;
 
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import io.jsonwebtoken.Jwts;
@@ -22,8 +22,8 @@ import net.dv8tion.jda.internal.utils.Checks;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ButtonPaginator implements Paginator {
-    public static final Logger LOGGER = LoggerFactory.getLogger(ButtonPaginator.class);
+public class StandardButtonPaginator implements Paginator {
+    public static final Logger LOGGER = LoggerFactory.getLogger(StandardButtonPaginator.class);
 
     private static final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
     private static final Random random = new Random();
@@ -44,7 +44,7 @@ public class ButtonPaginator implements Paginator {
     private long messageId = -1;
     private int page = 0;
 
-    public ButtonPaginator(Builder builder) {
+    public StandardButtonPaginator(Builder builder) {
         this.timeoutUnit = builder.timeoutUnit;
         this.timeout = builder.timeout;
 
@@ -252,9 +252,9 @@ public class ButtonPaginator implements Paginator {
         }
 
         @Nonnull
-        public ButtonPaginator build() {
+        public StandardButtonPaginator build() {
             validate();
-            return new ButtonPaginator(this);
+            return new StandardButtonPaginator(this);
         }
     }
 }

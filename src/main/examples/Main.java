@@ -1,7 +1,7 @@
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import com.sun.tools.javac.util.List;
 import javax.security.auth.login.LoginException;
-import me.arynxd.button_pagination.ButtonPaginator;
+import me.arynxd.button_utils.ButtonPaginator;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;

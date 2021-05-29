@@ -1,4 +1,4 @@
-package me.arynxd.button_pagination;
+package me.arynxd.button_utils.pagination;
 
 import java.util.concurrent.TimeUnit;
 import net.dv8tion.jda.api.entities.Emoji;

@@ -30,7 +30,7 @@ maven:
 <dependency>
     <groupId>com.github.arynxd</groupId>
     <artifactId>button-utils</artifactId>
-    <version>Tag</version>
+    <version>VERSION</version>
 </dependency>
 ```
 
@@ -38,3 +38,4 @@ maven:
 - Add timeout checks for greater than 15 minutes (interaction limit)
 - Slash command paginator
 - Refactor & organise
+- Menus (& Paginated)
