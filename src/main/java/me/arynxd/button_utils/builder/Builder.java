@@ -1,13 +1,9 @@
 package me.arynxd.button_utils.builder;
 
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.security.Keys;
-import java.security.Key;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Predicate;
 import javax.annotation.Nonnull;

@@ -1,7 +1,6 @@
 package me.arynxd.button_utils.pagination;
 
 import java.util.concurrent.TimeUnit;
-import net.dv8tion.jda.api.entities.Emoji;
 
 public interface Paginator {
     int DEFAULT_TIMEOUT = 10;

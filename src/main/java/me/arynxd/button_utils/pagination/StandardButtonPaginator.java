@@ -81,12 +81,7 @@ public class StandardButtonPaginator implements Paginator {
     }
 
     private void doWait() {
-        waiter.waitForEvent(ButtonClickEvent.class, ev -> {
-            if (ev.getChannel().getIdLong() != this.channelId) {
-                return false;
-            }
-            return predicate.test(ev);
-        }, this::switchPage, timeout, timeoutUnit, () -> {
+        waiter.waitForEvent(ButtonClickEvent.class, predicate, this::switchPage, timeout, timeoutUnit, () -> {
             if (this.deleteOnTimeout) {
                 if (this.messageId == -1) {
                     LOGGER.error("ID not set (this should never happen)", new IllegalStateException());
