@@ -17,8 +17,8 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.interaction.ButtonClickEvent;
-import net.dv8tion.jda.api.interactions.ActionRow;
-import net.dv8tion.jda.api.interactions.button.Button;
+import net.dv8tion.jda.api.interactions.components.ActionRow;
+import net.dv8tion.jda.api.interactions.components.Button;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,7 +41,7 @@ public class StandardButtonPaginator implements Paginator {
     private final int maxPage;
     private final ActionRow actionRow;
     private final List<String> jwtTokens;
-    private long messageId = -1;
+    private long messageID = -1;
     private int page = 0;
 
     public StandardButtonPaginator(StandardPaginatorBuilder builder) {
@@ -83,7 +83,7 @@ public class StandardButtonPaginator implements Paginator {
     private void doWait() {
         waiter.waitForEvent(ButtonClickEvent.class, predicate, this::switchPage, timeout, timeoutUnit, () -> {
             if (this.deleteOnTimeout) {
-                if (this.messageId == -1) {
+                if (this.messageID == -1) {
                     LOGGER.error("ID not set (this should never happen)", new IllegalStateException());
                     return;
                 }
@@ -94,7 +94,7 @@ public class StandardButtonPaginator implements Paginator {
                     return;
                 }
 
-                channel.deleteMessageById(this.messageId).queue();
+                channel.deleteMessageById(this.messageID).queue();
             }
         });
     }
@@ -109,7 +109,7 @@ public class StandardButtonPaginator implements Paginator {
             //Oh no
             MessageChannel channel = getChannel();
             if (channel != null) {
-                channel.deleteMessageById(messageId).queue();
+                channel.deleteMessageById(messageID).queue();
             }
             return;
         }
@@ -150,7 +150,7 @@ public class StandardButtonPaginator implements Paginator {
 
         channel.sendMessage(embeds.get(page))
                 .setActionRows(actionRow)
-                .queue(m -> this.messageId = m.getIdLong());
+                .queue(m -> this.messageID = m.getIdLong());
     }
 
     private MessageChannel getChannel() {
