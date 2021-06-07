@@ -1,9 +1,9 @@
 package me.arynxd.button_utils;
 
+import net.dv8tion.jda.api.entities.Emoji;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import net.dv8tion.jda.api.entities.Emoji;
 
 public class Constants {
     private Constants() { }
@@ -12,9 +12,10 @@ public class Constants {
     public static final String ARROW_LEFT_UNICODE = "\u2B05\uFE0F";
     public static final String WASTEBASKET_UNICODE = "\uD83D\uDDD1\uFE0F";
 
-    public static final Emoji ARROW_RIGHT_EMOJI = Emoji.ofUnicode(ARROW_RIGHT_UNICODE);
-    public static final Emoji ARROW_LEFT_EMOJI = Emoji.ofUnicode(ARROW_LEFT_UNICODE);
-    public static final Emoji WASTEBASKET_EMOJI = Emoji.ofUnicode(WASTEBASKET_UNICODE);
+
+    public static final Emoji ARROW_RIGHT_EMOJI = Emoji.fromUnicode(ARROW_RIGHT_UNICODE);
+    public static final Emoji ARROW_LEFT_EMOJI = Emoji.fromUnicode(ARROW_LEFT_UNICODE);
+    public static final Emoji WASTEBASKET_EMOJI = Emoji.fromUnicode(WASTEBASKET_UNICODE);
 
     /**
      * DO NOT MUTATE
@@ -36,16 +37,16 @@ public class Constants {
      * DO NOT MUTATE
      */
     public static final Emoji[] NUMBER_EMOJIS = {
-            Emoji.ofUnicode(NUMBER_UNICODES[0]),
-            Emoji.ofUnicode(NUMBER_UNICODES[1]),
-            Emoji.ofUnicode(NUMBER_UNICODES[2]),
-            Emoji.ofUnicode(NUMBER_UNICODES[3]),
-            Emoji.ofUnicode(NUMBER_UNICODES[4]),
-            Emoji.ofUnicode(NUMBER_UNICODES[5]),
-            Emoji.ofUnicode(NUMBER_UNICODES[6]),
-            Emoji.ofUnicode(NUMBER_UNICODES[7]),
-            Emoji.ofUnicode(NUMBER_UNICODES[8]),
-            Emoji.ofUnicode(NUMBER_UNICODES[9])
+            Emoji.fromUnicode(NUMBER_UNICODES[0]),
+            Emoji.fromUnicode(NUMBER_UNICODES[1]),
+            Emoji.fromUnicode(NUMBER_UNICODES[2]),
+            Emoji.fromUnicode(NUMBER_UNICODES[3]),
+            Emoji.fromUnicode(NUMBER_UNICODES[4]),
+            Emoji.fromUnicode(NUMBER_UNICODES[5]),
+            Emoji.fromUnicode(NUMBER_UNICODES[6]),
+            Emoji.fromUnicode(NUMBER_UNICODES[7]),
+            Emoji.fromUnicode(NUMBER_UNICODES[8]),
+            Emoji.fromUnicode(NUMBER_UNICODES[9])
     };
 
     public static final Map<Emoji, Integer> EMOJI_NUMBER_MAP;

@@ -17,7 +17,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly 'com.github.DV8FromTheWorld:JDA:5885efcc40d4087b93e142e84fb9aeb11d388dd1'
+    compileOnly 'net.dv8tion:JDA:4.2.1_269'
     implementation 'com.jagrosh:jda-utilities:3.0.5'
     implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
     implementation 'io.jsonwebtoken:jjwt-impl:0.11.2'
