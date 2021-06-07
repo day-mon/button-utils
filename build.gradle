@@ -17,7 +17,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'net.dv8tion:JDA:4.2.1_269'
+    compileOnly 'net.dv8tion:JDA:4.2.1_269'
     implementation 'com.jagrosh:jda-utilities:3.0.5'
     implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
     implementation 'io.jsonwebtoken:jjwt-impl:0.11.2'

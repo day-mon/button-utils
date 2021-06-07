@@ -15,7 +15,7 @@ import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 
 public class Main {
-    public static void main(String[] args) throws LoginException {
+    public void main(String[] args) throws LoginException {
         if (args.length < 1) {
             System.out.println("No token provided!");
             System.exit(0);
@@ -26,6 +26,7 @@ public class Main {
         EventWaiter waiter = new EventWaiter();
         JDA jda = JDABuilder.createDefault(token)
                 .addEventListeners(waiter)
+                .addEventListeners(this)
                 .build();
 
         List<MessageEmbed> embeds = Arrays.asList(
@@ -37,12 +38,12 @@ public class Main {
         );
 
         Paginator paginator = new StandardPaginatorBuilder()
-            .setWaiter(waiter)
-            .setEmbeds(embeds)
-            .setJDA(jda)
-            .setChannel(0)
-            .setPredicate(event -> event.getMember().getIdLong() == 0)
-            .build();
+                .setWaiter(waiter)
+                .setEmbeds(embeds)
+                .setJDA(jda)
+                .setChannel(0)
+                .setPredicate(event -> event.getMember().getIdLong() == 0)
+                .build();
 
         paginator.paginate();
 
