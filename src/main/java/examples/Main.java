@@ -1,7 +1,6 @@
 package examples;
 
-import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
-import java.util.ArrayList;
+
 import java.util.Arrays;
 import java.util.List;
 import javax.security.auth.login.LoginException;
@@ -9,6 +8,7 @@ import me.arynxd.button_utils.builder.menu.StandardMenuBuilder;
 import me.arynxd.button_utils.builder.pagination.StandardPaginatorBuilder;
 import me.arynxd.button_utils.menu.Menu;
 import me.arynxd.button_utils.pagination.Paginator;
+import me.arynxd.button_utils.util.EventWaiter;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;

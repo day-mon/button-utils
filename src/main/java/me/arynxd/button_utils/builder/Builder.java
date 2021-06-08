@@ -1,6 +1,5 @@
 package me.arynxd.button_utils.builder;
 
-import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -8,6 +7,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Predicate;
 import javax.annotation.Nonnull;
 import me.arynxd.button_utils.pagination.Paginator;
+import me.arynxd.button_utils.util.EventWaiter;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.MessageEmbed;

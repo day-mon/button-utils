@@ -1,24 +1,18 @@
 package me.arynxd.button_utils.menu;
 
-import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.security.Keys;
-import java.security.Key;
+
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.function.Predicate;
 import me.arynxd.button_utils.Constants;
 import me.arynxd.button_utils.builder.menu.StandardMenuBuilder;
+import me.arynxd.button_utils.util.EventWaiter;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Emoji;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.events.interaction.ButtonClickEvent;
 
 public class StandardMenu implements Menu {
-    private static final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-    private static final Random random = new Random();
-
     private final Map<Integer, List<String>> mapper;
     private final EventWaiter waiter;
     private final Predicate<ButtonClickEvent> predicate;

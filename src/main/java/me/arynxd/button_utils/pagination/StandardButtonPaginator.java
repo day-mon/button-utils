@@ -1,32 +1,24 @@
 package me.arynxd.button_utils.pagination;
 
-import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.security.Keys;
-import java.security.Key;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Predicate;
 import me.arynxd.button_utils.Constants;
 import me.arynxd.button_utils.builder.pagination.StandardPaginatorBuilder;
+import me.arynxd.button_utils.util.EventWaiter;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.interaction.ButtonClickEvent;
-import net.dv8tion.jda.api.interactions.ActionRow;
-import net.dv8tion.jda.api.interactions.button.Button;
+import net.dv8tion.jda.api.interactions.components.ActionRow;
+import net.dv8tion.jda.api.interactions.components.Button;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class StandardButtonPaginator implements Paginator {
     public static final Logger LOGGER = LoggerFactory.getLogger(StandardButtonPaginator.class);
-
-    private static final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-    private static final Random random = new Random();
 
     private final TimeUnit timeoutUnit;
     private final int timeout;
@@ -40,7 +32,6 @@ public class StandardButtonPaginator implements Paginator {
 
     private final int maxPage;
     private final ActionRow actionRow;
-    private final List<String> jwtTokens;
     private long messageId = -1;
     private int page = 0;
 
@@ -57,21 +48,11 @@ public class StandardButtonPaginator implements Paginator {
 
         this.maxPage = embeds.size();
 
-        this.jwtTokens = new ArrayList<>();
-
-        String token1 = makeToken((short) random.nextInt());
-        String token2 = makeToken((short) random.nextInt());
-        String token3 = makeToken((short) random.nextInt());
-
         this.actionRow = ActionRow.of(
-                Button.primary(token1, Constants.ARROW_LEFT_EMOJI),
-                Button.primary(token2, Constants.ARROW_RIGHT_EMOJI),
-                Button.danger(token3, Constants.WASTEBASKET_EMOJI)
+                Button.primary(makeToken(), Constants.ARROW_LEFT_EMOJI),
+                Button.primary(makeToken(), Constants.ARROW_RIGHT_EMOJI),
+                Button.danger(makeToken(), Constants.WASTEBASKET_EMOJI)
         );
-
-        jwtTokens.add(token1);
-        jwtTokens.add(token2);
-        jwtTokens.add(token3);
     }
 
     @Override
@@ -101,18 +82,8 @@ public class StandardButtonPaginator implements Paginator {
 
     private void switchPage(ButtonClickEvent event) {
         event.deferEdit().queue();
-        String jwt = event.getComponentId();
         String emoji = event.getButton().getEmoji().getName();
         Message message = event.getMessage();
-
-        if (!jwtTokens.contains(jwt)) {
-            //Oh no
-            MessageChannel channel = getChannel();
-            if (channel != null) {
-                channel.deleteMessageById(messageId).queue();
-            }
-            return;
-        }
 
         if (!predicate.test(event)) {
             return;
@@ -162,11 +133,8 @@ public class StandardButtonPaginator implements Paginator {
         return channel;
     }
 
-    private String makeToken(int rng) {
-        return Jwts.builder()
-                .signWith(key)
-                .setPayload(Long.toString(channelId) + rng)
-                .compact();
+    private String makeToken() {
+        return UUID.randomUUID().toString();
     }
 
     @Override
